@@ -205,6 +205,15 @@
     <artifactId>commons-httpclient</artifactId>
     <version>3.1_1</version>
 </dependency>
+
+
+<!--aop jar包  -->
+<dependency>
+  <groupId>org.aspectj</groupId> 
+  <artifactId>aspectjweaver</artifactId> 
+  <optional>true</optional> 
+  <version>1.6.6</version>
+</dependency>
       
           
     </dependencies>  
