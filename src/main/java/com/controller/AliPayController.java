@@ -20,6 +20,7 @@ public class AliPayController {
 	@RequestMapping("/pay")
 	@ResponseBody
 	public  ResponseEntity<HttpEntity> AliPayOrderPay(Model model,String total_price,String orderbody){
+		System.out.println("into*************");
 		try {
 			orderbody=URLDecoder.decode(orderbody, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
