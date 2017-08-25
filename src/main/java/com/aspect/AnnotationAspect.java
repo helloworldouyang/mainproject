@@ -17,8 +17,9 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class AnnotationAspect {
 	
-	@Pointcut("execution(* com.service.*.*(..))")  
+	@Pointcut("execution(* com.controller.*.*(..))")  
     private void pointCutMethod() {  
+		System.out.println("pointcu*****************");
     }  
   
     //声明前置通知  
@@ -42,7 +43,7 @@ public class AnnotationAspect {
     }  
   
     //声明最终通知  
-    @After("pointCutMethod()")  
+    @After("execution(* com.controller.UserController.*(..))")  
     public void doAfter() {  
         System.out.println("最终通知");  
     }  
