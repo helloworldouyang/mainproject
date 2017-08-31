@@ -1,5 +1,6 @@
 package com.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -17,7 +18,7 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect
 public class AnnotationAspect {
 	
-	@Pointcut("execution(* com.controller.*.*(..))")  
+	@Pointcut("execution(* com.service.*.*(..))")  
     private void pointCutMethod() {  
 		System.out.println("pointcu*****************");
     }  
@@ -43,7 +44,7 @@ public class AnnotationAspect {
     }  
   
     //声明最终通知  
-    @After("execution(* com.controller.UserController.*(..))")  
+    @After("pointCutMethod()")  
     public void doAfter() {  
         System.out.println("最终通知");  
     }  
@@ -55,6 +56,8 @@ public class AnnotationAspect {
         Object o = pjp.proceed();  
         System.out.println("退出方法---环绕通知");  
         return o;  
-    } 
+    }
+   /* 通知执行顺序：前置通知→环绕通知连接点之前→连接点执行→环绕通知连接点之后→返回通知→后通知
+    →(如果发生异常)异常通知→后通知*/
 
 }

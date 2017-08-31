@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:aop="http://www.springframework.org/schema/aop"  
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
@@ -14,9 +14,9 @@
                         http://www.springframework.org/schema/aop
                         http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
                         http://www.springframework.org/schema/tx
-                        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd ">
+                        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
     <!-- 自动扫描 -->  
-    <context:component-scan base-package="com.controller"/>  
+    <context:component-scan base-package="com"/>  
     <!-- 引入配置文件 -->  
     <bean id="propertyConfigurer"  
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
@@ -68,14 +68,45 @@
   
   <!-- 得到注入的bean帮助类 -->
   <bean class="com.util.framework.ApplicationContextHelper"/>
-  
-  
+   
   <!-- 开启aop -->
  <aop:aspectj-autoproxy></aop:aspectj-autoproxy>  
     <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator" />  
     <bean class="com.aspect.AnnotationAspect" />  
     
-    <bean id="userService" class="com.service.impl.IUserServiceImpl"></bean>
+    
+    <!-- activemq -->
+    <!-- 配置JMS连接工厂 -->
+	<bean id="connectionFactory"
+		class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://localhost:61616" />
+	</bean>
+	<!-- 发送消息的目的地（队列） -->
+	<bean id="queueDest"
+		class="org.apache.activemq.command.ActiveMQQueue">
+		<!-- 设置消息队列的名字 -->
+		<constructor-arg index="0" value="myQueue" />
+	</bean>
+	<!-- 配置QueueJms模板  -->
+	<bean id="jmsQueueTemplate"
+		class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestination" ref="queueDest" />
+		<property name="receiveTimeout" value="10000" />
+	</bean>
+	
+	
+	
+	  <bean id="producerService" class="com.activemq.spring.impl.ProducerServiceImpl">
+		<property name="jmsTemplate" ref="jmsQueueTemplate" />
+		<property name="destination" ref="queueDest" />
+	</bean>
+
+	<bean id="consumerService" class="com.activemq.spring.impl.ConsumerServiceImpl">
+		<property name="jmsTemplate" ref="jmsQueueTemplate" />
+		<property name="destination" ref="queueDest" />
+	</bean> 
+	
     
     
     
