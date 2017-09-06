@@ -1,4 +1,4 @@
-package com.activemq.spring;
+package com.activemq.queue.spring;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.activemq.topic;
+package com.activemq.topic.maintest;
 
 import java.util.Date;
 

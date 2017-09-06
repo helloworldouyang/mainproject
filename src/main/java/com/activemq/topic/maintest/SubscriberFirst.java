@@ -1,12 +1,13 @@
-package com.activemq.topic;
+package com.activemq.topic.maintest;
 
 import java.util.Date;
 
 import javax.jms.Connection;
-import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
-import javax.jms.MessageProducer;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.Topic;
 
@@ -14,11 +15,11 @@ import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 /**
- * topic(发布/订阅):消息发布者
+ * topic:消息订阅者一
  * @author Administrator
  *
  */
-public class Publisher {
+public class SubscriberFirst {
 	
 	public static void main(String[] args) {
 		String user = ActiveMQConnection.DEFAULT_USER;
@@ -30,30 +31,33 @@ public class Publisher {
 		try {
 			connection = factory.createConnection();
 			connection.start();
-			Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
+			final Session session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
 			Topic topic = session.createTopic(subject);
-			MessageProducer producer = session.createProducer(topic);
-			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-			for (int i = 0; i <= 20; i++) {
-				MapMessage message = session.createMapMessage();
-				Date date = new Date();
-				message.setLong("count", date.getTime());
-				Thread.sleep(1000);
-				producer.send(message);
-				System.out.println("--发送消息：" + date);
-			}
-			session.commit();
-			session.close();
-			connection.close();
-
+			MessageConsumer consumer = session.createConsumer(topic);
+            consumer.setMessageListener(new MessageListener() {
+				
+				@Override
+				public void onMessage(Message msg) {
+					// TODO Auto-generated method stub
+					MapMessage message=(MapMessage)msg;
+					try {
+						System.out.println("--订阅者一收到消息："+new Date(message.getLong("count")));
+						session.commit();
+					} catch (JMSException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			 
 		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		
 
+		
+		
 	}
 
 }

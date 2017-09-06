@@ -1,4 +1,4 @@
-package com.activemq.spring.impl;
+package com.activemq.queue.spring.impl;
 
 import java.util.Date;
 
@@ -10,17 +10,18 @@ import javax.jms.MapMessage;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import com.activemq.spring.ConsumerService;
+import com.activemq.queue.spring.ConsumerService;
+
 
 public class ConsumerServiceImpl implements ConsumerService{
 
-	JmsTemplate jmsTemplate;
+	JmsTemplate jmstemplate;
 	Destination destination;
 	
 	@Override
 	public void receive() {
 		// TODO Auto-generated method stub
-		MapMessage message = (MapMessage) jmsTemplate.receive();
+		MapMessage message = (MapMessage) jmstemplate.receive();
 		try {
 			System.out.println("--收到消息：" + new Date(message.getLong("count")));
 		} catch (JMSException e) {
@@ -30,12 +31,25 @@ public class ConsumerServiceImpl implements ConsumerService{
 	}
 	
 	public void setJmsTemplate(JmsTemplate jmsTemplate) {
-		this.jmsTemplate = jmsTemplate;
+		this.jmstemplate = jmsTemplate;
 	}
 
 	public void setDestination(Destination destination) {
 		this.destination = destination;
 	}
 
+	public JmsTemplate getJmstemplate() {
+		return jmstemplate;
+	}
+
+	public void setJmstemplate(JmsTemplate jmstemplate) {
+		this.jmstemplate = jmstemplate;
+	}
+
+	public Destination getDestination() {
+		return destination;
+	}
+
+	
 
 }

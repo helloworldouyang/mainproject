@@ -1,4 +1,4 @@
-package com.activemq;
+package com.activemq.queue.maintest;
 
 import java.util.Date;
 

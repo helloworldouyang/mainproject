@@ -1,4 +1,4 @@
-package com.activemq.spring.test;
+package com.activemq.queue.spring.maintest;
 
 import javax.annotation.Resource;
 
@@ -6,28 +6,26 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.activemq.spring.ProducerService;
+import com.activemq.queue.spring.ConsumerService;
 import com.util.framework.ApplicationContextHelper;
 
 /**
- * 消息生产者测试类
+ * 消息消费者测试类
  * @author Administrator
  *
  */
 
 
-public class ProducerTest {
-
+public class ConsumerTest {
 	private static ApplicationContext appContext = new ClassPathXmlApplicationContext( "spring-mybatis.xml");
 	
-	private static void send(){
-		ProducerService producerService=(ProducerService)appContext.getBean("producerService");
-		producerService.send();
-		
+	private static void receive(){
+		ConsumerService consumerService=(ConsumerService)appContext.getBean("consumerService");
+		consumerService.receive();
 	}
 	
 	
 	public static void main(String[] args) {
-		send();
+		receive();
 	}
 }

@@ -1,4 +1,4 @@
-package com.activemq.spring.impl;
+package com.activemq.queue.spring.impl;
 
 import java.util.Date;
 
@@ -13,7 +13,8 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
-import com.activemq.spring.ProducerService;
+import com.activemq.queue.spring.ProducerService;
+
 
 /**
  * 消息生产者实现类
@@ -22,7 +23,7 @@ import com.activemq.spring.ProducerService;
  */
 public class ProducerServiceImpl implements ProducerService{
 
-	JmsTemplate jmsTemplate;
+	JmsTemplate jmstemplate;
 	Destination destination;
 
 	
@@ -43,8 +44,31 @@ public class ProducerServiceImpl implements ProducerService{
 
 			}
 		};
-		jmsTemplate.send(this.destination,messageCreator);
+		jmstemplate.send(this.destination,messageCreator);
 		
 	}
+
+
+	public JmsTemplate getJmstemplate() {
+		return jmstemplate;
+	}
+
+
+	public void setJmstemplate(JmsTemplate jmstemplate) {
+		this.jmstemplate = jmstemplate;
+	}
+
+
+	public Destination getDestination() {
+		return destination;
+	}
+
+
+	public void setDestination(Destination destination) {
+		this.destination = destination;
+	}
+	
+	
+	
 
 }
