@@ -263,7 +263,7 @@
     </dependencies>  
   
   <!-- tomcat自启配置 -->
-   <build>
+  <!--  <build>
 		<finalName>payProject</finalName>
 		<plugins>
 			<plugin>
@@ -289,7 +289,7 @@
 			</plugin>
 		</plugins>
 
-	</build> 
+	</build> --> 
   
   
   
